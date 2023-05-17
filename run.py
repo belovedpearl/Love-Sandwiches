@@ -20,13 +20,20 @@ print(data)
 def get_sales_data():
     '''
     Get sales figure input from user
+    Run a while loop to repeatedly as for input until
+    the correct one is provided
     '''
-    print("Please enter sales from the last market")
-    print("Data should be six numbers")
-    print("Example: 10,20,30,40,50,60\n")
-    data_str = input("Enter your data here: ")
-    sales_data = data_str.split(',')
-    validate_data(sales_data)
+    while True:
+        print("Please enter sales from the last market")
+        print("Data should be six numbers")
+        print("Example: 10,20,30,40,50,60\n")
+        data_str = input("Enter your data here: ")
+        sales_data = data_str.split(',')
+    
+        if validate_data(sales_data):
+            print("Data is valid")
+            break
+    return sales_data
 
 def validate_data(values):
     '''
@@ -40,5 +47,23 @@ def validate_data(values):
             )
     except ValueError as e:
         print(f"Invalid data {e}, please try again")
+        return False
+    return True
 
-get_sales_data()
+def update_sales_data(data):
+    """
+    Update sales worksheet, add data into rows with list provided
+    """
+
+    print("Updating worksheet...")
+    
+    sales_worksheet = SHEET.worksheet('sales')
+    sales_worksheet.append_row(data)
+
+    print("Update complete.")
+
+
+
+data = get_sales_data()
+sales_data = [int(num) for num in data]
+update_sales_data(sales_data)
