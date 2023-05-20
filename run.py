@@ -150,7 +150,17 @@ def main():
     sales_columns = get_last_5_entries()
     stock_value = calculate_stock_data(sales_columns)
     update_worksheet(stock_value, "stock")
-    
+    return stock_value
     
 print("Welcome to love sandwiches automation")
-main()
+stock_data = main()
+
+def get_stock_values(data):
+    headings = SHEET.worksheet('sales').row_values(1)
+    obj = {}
+    for key in headings:
+        for value in data:
+            obj[key] = value
+    return obj
+stock_values = get_stock_values(stock_data)
+print(stock_values)
